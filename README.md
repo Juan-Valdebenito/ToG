@@ -13,6 +13,7 @@ datos/
   validar_red.py              Comprueba las reglas del enunciado sobre una red
 docs/
   tarea1_red_principal.md     Diseño de la red, validación y formato de datos
+  tarea2_formulacion.md       Formulación matemática del modelo
 ```
 
 ## Ejecución
@@ -33,7 +34,10 @@ py -3 datos/validar_red.py datos/red_principal.json
    3. Validar las reglas: 10–12 vértices, 15–20 arcos, sin lazos, sin arcos repetidos ni recíprocos y sin vértices aislados. ✅
    4. Elegir origen s y destino t, y verificar que existan al menos 2 caminos dirigidos distintos. ✅
    5. Definir el formato JSON común y entregar los archivos de datos al equipo. ✅
-2. **Formulación matemática del modelo**: G = (V, E), función c, restricciones de capacidad y conservación, valor del flujo |x| y significado de cada elemento.
+2. **Formulación matemática del modelo** — [docs/tarea2_formulacion.md](docs/tarea2_formulacion.md)
+   1. Definir formalmente G = (V, E), la función de capacidad c, las propiedades exigidas y los sucesores/predecesores de cada centro. ✅
+   2. Formular las restricciones del flujo (capacidad y conservación), el valor del flujo |x| y el problema de flujo máximo como optimización.
+   3. Aplicar el modelo a la red principal: escribir las ecuaciones de conservación de cada centro intermedio y explicar los supuestos e interpretación del modelo.
 3. **Teorema de flujo máximo–corte mínimo**: investigarlo, definir c(S, T) y explicar por qué el corte obtenido del grafo residual es mínimo.
 4. **Caso de verificación manual (4–6 vértices)**: resolverlo a mano con caminos aumentantes, encontrar un flujo y un corte de igual valor y compararlo con la salida del código (capturas).
 5. **Verificación de las 3 configuraciones e informe final**: comprobar capacidades, conservación y flujo = corte en la red inicial y sus dos modificaciones; unir las secciones del informe en PDF con las referencias.
