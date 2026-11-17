@@ -1,0 +1,23 @@
+{
+  "nombre": "Red de ejemplo del enunciado (Figura 1) - solo para pruebas",
+  "unidad_capacidad": "paquetes por hora",
+  "origen": "O",
+  "destino": "T",
+  "vertices": [
+    {"id": "O", "nombre": "Origen"},
+    {"id": "A", "nombre": "A"},
+    {"id": "B", "nombre": "B"},
+    {"id": "C", "nombre": "C"},
+    {"id": "D", "nombre": "D"},
+    {"id": "T", "nombre": "Destino"}
+  ],
+  "arcos": [
+    {"u": "O", "v": "A", "cap": 8, "activo": true},
+    {"u": "O", "v": "B", "cap": 6, "activo": true},
+    {"u": "A", "v": "C", "cap": 5, "activo": true},
+    {"u": "A", "v": "D", "cap": 3, "activo": true},
+    {"u": "B", "v": "D", "cap": 6, "activo": true},
+    {"u": "C", "v": "T", "cap": 5, "activo": true},
+    {"u": "D", "v": "T", "cap": 9, "activo": true}
+  ]
+}
