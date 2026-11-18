@@ -165,3 +165,49 @@ El flujo cumple la restricción de capacidad en los 18 arcos. Por ese mismo cami
 $\min\lbrace 5, 1, 2, 7 \rbrace = 1$ paquete/hora más, porque $(A,D)$ quedaría saturado. Esta idea (el mínimo de las holguras a lo largo de un camino) es la **capacidad residual** que usan Ford–Fulkerson y Edmonds–Karp para aumentar el flujo.
 
 **Contraejemplo.** Enviar 7 paquetes/hora por el mismo camino no es válido: $x(A,D) = 7 > c(A,D) = 6$.
+
+### 2.2b Conservación del flujo en los centros intermedios
+
+#### 2.2b.1 Formulación de la restricción de conservación
+
+En cada centro intermedio, **todo lo que entra debe salir**:
+
+$$\sum_{(u,v) \in E} x(u, v) \;=\; \sum_{(v,w) \in E} x(v, w), \qquad \forall\, v \in V \setminus \lbrace s, t \rbrace$$
+
+- El lado izquierdo suma el flujo de los arcos que **entran** a $v$, es decir, los de $\delta^-(v)$.
+- El lado derecho suma el flujo de los arcos que **salen** de $v$, es decir, los de $\delta^+(v)$.
+
+Con la notación de 2.1 se escribe de forma compacta:
+
+$$x^{\text{ent}}(v) = \sum_{e \in \delta^-(v)} x(e), \qquad x^{\text{sal}}(v) = \sum_{e \in \delta^+(v)} x(e), \qquad x^{\text{ent}}(v) = x^{\text{sal}}(v)$$
+
+Equivalentemente, el **flujo neto** (exceso) de cada centro intermedio es cero:
+
+$$\operatorname{exc}(v) = x^{\text{ent}}(v) - x^{\text{sal}}(v) = 0, \qquad \forall\, v \in V \setminus \lbrace s, t \rbrace$$
+
+**Significado en la red de distribución:**
+
+- Los centros intermedios **no producen** paquetes: no puede salir más de lo que llega.
+- Los centros intermedios **no almacenan ni pierden** paquetes: no puede llegar más de lo que sale. El modelo describe un régimen estable, hora a hora, sin acumulación en bodega.
+- Un paquete que llega a un centro intermedio sigue hacia otro centro por alguna de sus rutas de salida.
+
+**¿Por qué se excluyen $s$ y $t$?**
+
+| Vértice | Comportamiento | Exceso |
+|---|---|---|
+| $s = O$ | **Genera** los paquetes: sale más de lo que entra | $\operatorname{exc}(O) = -\lvert x \rvert \le 0$ |
+| $t = T$ | **Recibe** los paquetes: entra más de lo que sale | $\operatorname{exc}(T) = \lvert x \rvert \ge 0$ |
+| $v \in V \setminus \lbrace s,t \rbrace$ | Solo deja pasar los paquetes | $\operatorname{exc}(v) = 0$ |
+
+En la red principal, $V \setminus \lbrace s,t \rbrace = \lbrace A, B, C, D, E, F, G, H \rbrace$, así que hay **8 ecuaciones de conservación**.
+
+**Ejemplo (continuación de 2.2a).** Con 5 paquetes/hora por $O \to A \to D \to H \to T$:
+
+| Centro | Entra | Sale | ¿Se conserva? |
+|---|---|---|---|
+| A | $x(O,A) = 5$ | $x(A,D) = 5$ | ✔ $5 = 5$ |
+| D | $x(A,D) = 5$ | $x(D,H) = 5$ | ✔ $5 = 5$ |
+| H | $x(D,H) = 5$ | $x(H,T) = 5$ | ✔ $5 = 5$ |
+| B, C, E, F, G | 0 | 0 | ✔ $0 = 0$ |
+
+Un flujo que cumple la restricción de capacidad (2.2a.2) y la de conservación (2.2b) se llama **flujo factible**.
