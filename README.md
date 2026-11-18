@@ -43,7 +43,10 @@ py -3 datos/validar_red.py datos/red_principal.json
       - **2.2b** Conservación del flujo en los centros intermedios
         - 2.2b.1 Formular la restricción de conservación, su significado y por qué se excluyen s y t. ✅
         - 2.2b.2 Verificar la conservación con un flujo de varios caminos en la red principal (y un contraejemplo). ✅
-      - **2.2c** Valor del flujo |x| (lo que sale de s = lo que llega a t).
+      - **2.2c** Valor del flujo |x|
+        - 2.2c.1 Definir |x| (flujo neto que sale de s), su significado y aplicarlo a la red principal. ✅
+        - 2.2c.2 Demostrar que lo que sale de s es igual a lo que llega a t.
+        - 2.2c.3 Cotas superiores del valor: capacidad de salida de s, de entrada a t y de cualquier corte.
       - **2.2d** Problema de flujo máximo como problema de optimización.
    3. Aplicar el modelo a la red principal: escribir las ecuaciones de conservación de cada centro intermedio y explicar los supuestos e interpretación del modelo.
 3. **Teorema de flujo máximo–corte mínimo**: investigarlo, definir c(S, T) y explicar por qué el corte obtenido del grafo residual es mínimo.

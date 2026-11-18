@@ -256,3 +256,40 @@ $$x^{\text{ent}}(G) = 4 + 6 = 10 \ne 8 = x^{\text{sal}}(G), \qquad \operatorname
 Todas las capacidades se siguen respetando, pero el centro $G$ **acumularía 2 paquetes por hora** que nunca salen. Por eso no es un flujo factible. Además, a $T$ llegarían $8 + 5 = 13$ paquetes, aunque de $O$ salen 15. Cuando falla la conservación, lo que sale del origen ya no coincide con lo que llega al destino.
 
 > Esta misma comprobación (capacidad y conservación en cada centro) la debe hacer automáticamente el código de la Persona 2 para la red principal y sus dos modificaciones.
+
+### 2.2c Valor del flujo $|x|$
+
+#### 2.2c.1 Definición del valor del flujo
+
+El **valor** de un flujo $x$ es la cantidad **neta** de paquetes por hora que sale del origen:
+
+$$|x| \;=\; \sum_{(s,v) \in E} x(s, v) \;-\; \sum_{(u,s) \in E} x(u, s)$$
+
+- El primer término suma lo que **sale** de $s$ por sus rutas: $x^{\text{sal}}(s)$.
+- El segundo término resta lo que **vuelve a entrar** a $s$: $x^{\text{ent}}(s)$.
+
+Con la notación de 2.2b: $\ |x| = x^{\text{sal}}(s) - x^{\text{ent}}(s) = -\operatorname{exc}(s)$.
+
+**Significado:** $|x|$ es el **rendimiento de la red**, es decir, cuántos paquetes por hora se despachan efectivamente desde el origen hacia el resto de la red. Es la cantidad que la empresa quiere **maximizar**.
+
+**¿Por qué se resta lo que entra a $s$?** En general, una red puede tener rutas que regresan al origen. Un paquete que sale de $s$ y vuelve a $s$ no se transportó a ningún lugar, así que no debe contarse. Por eso se usa la cantidad **neta**.
+
+**Aplicación a la red principal.** En la red principal $s = O$, con
+
+$$\delta^+(O) = \lbrace (O,A), (O,B), (O,C) \rbrace, \qquad \delta^-(O) = \varnothing$$
+
+Ninguna ruta llega a $O$, así que el segundo término vale 0 y el valor se reduce a
+
+$$|x| = x(O,A) + x(O,B) + x(O,C)$$
+
+Esto no vale siempre: si alguna modificación agrega una ruta que llega a $O$ (por ejemplo $D \to O$), habrá que restar su flujo.
+
+**Valores de los ejemplos anteriores:**
+
+| Flujo | $x(O,A)$ | $x(O,B)$ | $x(O,C)$ | $\lvert x \rvert$ |
+|---|---|---|---|---|
+| Flujo nulo | 0 | 0 | 0 | 0 |
+| Un camino (2.2a) | 5 | 0 | 0 | 5 |
+| Tres caminos (2.2b.2) | 5 | 6 | 4 | 15 |
+
+Todos son flujos factibles con distinto valor. El problema de flujo máximo (2.2d) consiste en encontrar, entre todos los flujos factibles, uno de **valor máximo**.
