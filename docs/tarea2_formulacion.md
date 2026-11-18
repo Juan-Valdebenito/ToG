@@ -127,3 +127,41 @@ $$
 | resto | 0 | — |
 
 Este flujo transporta 5 paquetes/hora de $O$ a $T$. En 2.2a.2 se formaliza por qué es válido respecto de las capacidades, y en 2.2b y 2.2c se revisan la conservación y el valor del flujo.
+
+#### 2.2a.2 Restricción de capacidad
+
+Ninguna ruta puede transportar más paquetes de los que admite ni una cantidad negativa:
+
+$$0 \le x(u, v) \le c(u, v), \qquad \forall\, (u, v) \in E$$
+
+**Significado:**
+
+- $x(u,v) \ge 0$: los paquetes solo viajan en el sentido de la ruta ($u \to v$). Un valor negativo significaría transportar en sentido contrario, lo que no está permitido.
+- $x(u,v) \le c(u,v)$: no se supera la cantidad máxima de paquetes por hora de la ruta.
+
+Son $|E| = 18$ pares de desigualdades, una por cada ruta de la red principal.
+
+**Holgura y arcos saturados.** Para un flujo $x$ que cumple la restricción se define la **holgura** de cada arco:
+
+$$h(u, v) = c(u, v) - x(u, v) \ \ge 0$$
+
+| Caso | Condición | Interpretación |
+|---|---|---|
+| Arco sin uso | $x(u,v) = 0$ | La ruta no se utiliza |
+| Arco con holgura | $0 < x(u,v) < c(u,v)$ | La ruta podría llevar $h(u,v)$ paquetes más |
+| Arco **saturado** | $x(u,v) = c(u,v)$, es decir $h(u,v) = 0$ | La ruta está al máximo: es un posible **cuello de botella** |
+
+**Ejemplo (continuación de 2.2a.1).** Con 5 paquetes/hora por $O \to A \to D \to H \to T$:
+
+| Arco | $x$ | $c$ | ¿$0 \le x \le c$? | Holgura $h$ |
+|---|---|---|---|---|
+| $(O,A)$ | 5 | 10 | ✔ | 5 |
+| $(A,D)$ | 5 | 6 | ✔ | **1** |
+| $(D,H)$ | 5 | 7 | ✔ | 2 |
+| $(H,T)$ | 5 | 12 | ✔ | 7 |
+| otros 14 arcos | 0 | — | ✔ | $c(u,v)$ |
+
+El flujo cumple la restricción de capacidad en los 18 arcos. Por ese mismo camino solo se podría agregar
+$\min\lbrace 5, 1, 2, 7 \rbrace = 1$ paquete/hora más, porque $(A,D)$ quedaría saturado. Esta idea (el mínimo de las holguras a lo largo de un camino) es la **capacidad residual** que usan Ford–Fulkerson y Edmonds–Karp para aumentar el flujo.
+
+**Contraejemplo.** Enviar 7 paquetes/hora por el mismo camino no es válido: $x(A,D) = 7 > c(A,D) = 6$.

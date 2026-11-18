@@ -39,7 +39,7 @@ py -3 datos/validar_red.py datos/red_principal.json
    2. Formular las restricciones del flujo (capacidad y conservación), el valor del flujo |x| y el problema de flujo máximo como optimización.
       - **2.2a** Función de flujo y restricción de capacidad
         - 2.2a.1 Definir la función de flujo x, su significado y su diferencia con c (con ejemplo). ✅
-        - 2.2a.2 Formular la restricción de capacidad 0 ≤ x(u,v) ≤ c(u,v), arcos saturados y holgura.
+        - 2.2a.2 Formular la restricción de capacidad 0 ≤ x(u,v) ≤ c(u,v), arcos saturados y holgura. ✅
       - **2.2b** Conservación del flujo en los centros intermedios.
       - **2.2c** Valor del flujo |x| (lo que sale de s = lo que llega a t).
       - **2.2d** Problema de flujo máximo como problema de optimización.
