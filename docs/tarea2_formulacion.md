@@ -211,3 +211,48 @@ En la red principal, $V \setminus \lbrace s,t \rbrace = \lbrace A, B, C, D, E, F
 | B, C, E, F, G | 0 | 0 | ✔ $0 = 0$ |
 
 Un flujo que cumple la restricción de capacidad (2.2a.2) y la de conservación (2.2b) se llama **flujo factible**.
+
+#### 2.2b.2 Verificación de la conservación con un flujo de varios caminos
+
+Se considera un flujo en la red principal formado por **tres caminos** que se combinan:
+
+| Camino | Paquetes/hora |
+|---|---|
+| $P_1:\ O \to A \to D \to H \to T$ | 5 |
+| $P_2:\ O \to B \to F \to G \to T$ | 6 |
+| $P_3:\ O \to C \to G \to T$ | 4 |
+
+El flujo de cada arco es la suma de lo que envían los caminos que lo usan. Los caminos $P_2$ y $P_3$ **se juntan en $G$**, así que $x(G,T) = 6 + 4 = 10$.
+
+| Arco | $x$ | $c$ | Arco | $x$ | $c$ |
+|---|---|---|---|---|---|
+| $(O,A)$ | 5 | 10 | $(C,G)$ | 4 | 4 |
+| $(O,B)$ | 6 | 8 | $(D,H)$ | 5 | 7 |
+| $(O,C)$ | 4 | 7 | $(F,G)$ | 6 | 6 |
+| $(A,D)$ | 5 | 6 | $(G,T)$ | 10 | 12 |
+| $(B,F)$ | 6 | 6 | $(H,T)$ | 5 | 12 |
+
+Los otros 8 arcos tienen $x = 0$. Se cumple $0 \le x \le c$ en todos los arcos. Los arcos $(B,F)$, $(C,G)$ y $(F,G)$ quedan **saturados**.
+
+**Comprobación de las 8 ecuaciones de conservación:**
+
+| Centro | Entra $x^{\text{ent}}(v)$ | Sale $x^{\text{sal}}(v)$ | ¿Se conserva? |
+|---|---|---|---|
+| A | $x(O,A) + x(B,A) = 5 + 0 = 5$ | $x(A,D) + x(A,E) = 5 + 0 = 5$ | ✔ |
+| B | $x(O,B) = 6$ | $x(B,A) + x(B,D) + x(B,F) = 0 + 0 + 6 = 6$ | ✔ |
+| C | $x(O,C) = 4$ | $x(C,F) + x(C,G) = 0 + 4 = 4$ | ✔ |
+| D | $x(A,D) + x(B,D) = 5 + 0 = 5$ | $x(D,E) + x(D,H) = 0 + 5 = 5$ | ✔ |
+| E | $x(A,E) + x(D,E) + x(F,E) = 0$ | $x(E,H) = 0$ | ✔ |
+| F | $x(B,F) + x(C,F) = 6 + 0 = 6$ | $x(F,E) + x(F,G) = 0 + 6 = 6$ | ✔ |
+| G | $x(C,G) + x(F,G) = 4 + 6 = 10$ | $x(G,H) + x(G,T) = 0 + 10 = 10$ | ✔ |
+| H | $x(D,H) + x(E,H) + x(G,H) = 5 + 0 + 0 = 5$ | $x(H,T) = 5$ | ✔ |
+
+El flujo respeta la capacidad y la conservación, así que es **factible**. Sale de $O$: $5 + 6 + 4 = 15$ y llega a $T$: $10 + 5 = 15$ paquetes/hora. No es el máximo (en 1.4 se indicó que el máximo es 22), pero es un flujo válido.
+
+**Contraejemplo: un flujo que no conserva.** Si en el flujo anterior se cambia solo $x(G,T) = 8$:
+
+$$x^{\text{ent}}(G) = 4 + 6 = 10 \ne 8 = x^{\text{sal}}(G), \qquad \operatorname{exc}(G) = 2$$
+
+Todas las capacidades se siguen respetando, pero el centro $G$ **acumularía 2 paquetes por hora** que nunca salen. Por eso no es un flujo factible. Además, a $T$ llegarían $8 + 5 = 13$ paquetes, aunque de $O$ salen 15. Cuando falla la conservación, lo que sale del origen ya no coincide con lo que llega al destino.
+
+> Esta misma comprobación (capacidad y conservación en cada centro) la debe hacer automáticamente el código de la Persona 2 para la red principal y sus dos modificaciones.
