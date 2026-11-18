@@ -293,3 +293,51 @@ Esto no vale siempre: si alguna modificación agrega una ruta que llega a $O$ (p
 | Tres caminos (2.2b.2) | 5 | 6 | 4 | 15 |
 
 Todos son flujos factibles con distinto valor. El problema de flujo máximo (2.2d) consiste en encontrar, entre todos los flujos factibles, uno de **valor máximo**.
+
+#### 2.2c.2 Lo que sale del origen es igual a lo que llega al destino
+
+**Proposición.** Si $x$ es un flujo factible, entonces
+
+$$|x| \;=\; \sum_{(u,t) \in E} x(u, t) \;-\; \sum_{(t,w) \in E} x(t, w) \;=\; \operatorname{exc}(t)$$
+
+Es decir, la cantidad neta que sale de $s$ es igual a la cantidad neta que llega a $t$.
+
+**Demostración.**
+
+*Paso 1: la suma de todos los excesos es cero.* Se suma el exceso de todos los vértices:
+
+$$\sum_{v \in V} \operatorname{exc}(v) \;=\; \sum_{v \in V} x^{\text{ent}}(v) \;-\; \sum_{v \in V} x^{\text{sal}}(v)$$
+
+Cada arco $(u, w) \in E$ aparece **exactamente una vez** en cada suma:
+
+- en $\sum_v x^{\text{ent}}(v)$, cuando $v = w$, porque el arco entra a $w$;
+- en $\sum_v x^{\text{sal}}(v)$, cuando $v = u$, porque el arco sale de $u$.
+
+Entonces las dos sumas son iguales a $\sum_{e \in E} x(e)$ y se cancelan:
+
+$$\sum_{v \in V} \operatorname{exc}(v) \;=\; \sum_{e \in E} x(e) \;-\; \sum_{e \in E} x(e) \;=\; 0$$
+
+*Paso 2: usar la conservación.* Por la restricción de conservación (2.2b), $\operatorname{exc}(v) = 0$ para todo $v \in V \setminus \lbrace s,t \rbrace$. En la suma solo quedan $s$ y $t$:
+
+$$\operatorname{exc}(s) + \operatorname{exc}(t) = 0 \quad\Longrightarrow\quad \operatorname{exc}(t) = -\operatorname{exc}(s) = |x| \qquad \blacksquare$$
+
+**Interpretación:** como los centros intermedios no crean, almacenan ni pierden paquetes, todo lo que el origen despacha termina llegando al destino. La conservación es justamente la hipótesis que hace funcionar el argumento. En el contraejemplo de 2.2b.2, donde $G$ acumulaba paquetes, salían 15 de $O$ pero llegaban 13 a $T$.
+
+**Aplicación a la red principal.** $t = T$, con
+
+$$\delta^-(T) = \lbrace (G,T), (H,T) \rbrace, \qquad \delta^+(T) = \varnothing$$
+
+Por lo tanto, en la red principal
+
+$$|x| = x(O,A) + x(O,B) + x(O,C) = x(G,T) + x(H,T)$$
+
+**Comprobación con los ejemplos:**
+
+| Flujo | Sale de $O$ | Llega a $T$: $x(G,T) + x(H,T)$ | ¿Iguales? |
+|---|---|---|---|
+| Un camino (2.2a) | $5$ | $0 + 5 = 5$ | ✔ |
+| Tres caminos (2.2b.2) | $5 + 6 + 4 = 15$ | $10 + 5 = 15$ | ✔ |
+
+Suma de excesos del flujo de tres caminos: $\operatorname{exc}(O) + \operatorname{exc}(T) + \sum_{v \ne O,T} \operatorname{exc}(v) = -15 + 15 + 0 = 0$ ✔.
+
+> Utilidad práctica: el programa puede calcular $|x|$ en $s$ y en $t$ y comparar ambos valores como una verificación adicional del resultado.
