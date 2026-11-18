@@ -81,3 +81,49 @@ Observaciones:
 
 - De $O$ salen como máximo 25 paquetes/hora y a $T$ llegan como máximo 24, pero el flujo real depende de las capacidades intermedias (por ejemplo, $E$ puede recibir 10 pero solo despachar 5).
 - La suma de los grados de salida es $3+2+3+2+2+1+2+2+1 = 18 = |E|$.
+
+## 2.2 Restricciones del flujo y problema de flujo máximo
+
+### 2.2a Función de flujo y restricción de capacidad
+
+#### 2.2a.1 Función de flujo $x$
+
+Un **flujo** en la red $N = (G, c, s, t)$ es una función que asigna a cada arco una cantidad de paquetes:
+
+$$x : E \longrightarrow \mathbb{Z}_{\ge 0}, \qquad (u, v) \longmapsto x(u, v)$$
+
+**Significado:** $x(u, v)$ es la cantidad de paquetes por hora que **efectivamente** se envía por la ruta $u \to v$.
+
+Diferencia entre $c$ y $x$:
+
+| Símbolo | Qué representa | ¿Cambia? |
+|---|---|---|
+| $c(u, v)$ | Capacidad **máxima** de la ruta (dato del problema) | Fija para cada configuración de la red |
+| $x(u, v)$ | Paquetes que **realmente** circulan por la ruta (variable de decisión) | La elige el algoritmo |
+
+Observaciones:
+
+- El flujo se define solo sobre los arcos de $E$. Como no hay arcos recíprocos, por cada par de centros hay **a lo sumo un sentido** en que pueden circular paquetes.
+- Se toman valores **enteros** porque los paquetes son indivisibles. Como todas las capacidades son enteras, existe un flujo máximo entero (teorema de integralidad, Ford y Fulkerson, 1956), y los algoritmos de caminos aumentantes lo encuentran.
+- El **flujo nulo** $x(u,v) = 0$ para todo $(u,v) \in E$ siempre es un flujo válido de valor 0. Es el punto de partida de Ford–Fulkerson y Edmonds–Karp.
+- Las rutas desactivadas (`"activo": false`) no pertenecen a $E$ en esa configuración, por lo que no tienen flujo.
+
+**Ejemplo en la red principal.** Si se envían 5 paquetes/hora por el camino $O \to A \to D \to H \to T$ y nada más:
+
+$$
+x(u,v) =
+\begin{cases}
+5 & \text{si } (u,v) \in \lbrace (O,A), (A,D), (D,H), (H,T) \rbrace \
+0 & \text{en los otros 14 arcos}
+\end{cases}
+$$
+
+| Arco | $x(u,v)$ | $c(u,v)$ |
+|---|---|---|
+| $(O,A)$ | 5 | 10 |
+| $(A,D)$ | 5 | 6 |
+| $(D,H)$ | 5 | 7 |
+| $(H,T)$ | 5 | 12 |
+| resto | 0 | — |
+
+Este flujo transporta 5 paquetes/hora de $O$ a $T$. En 2.2a.2 se formaliza por qué es válido respecto de las capacidades, y en 2.2b y 2.2c se revisan la conservación y el valor del flujo.
