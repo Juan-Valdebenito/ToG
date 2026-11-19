@@ -36,7 +36,7 @@ py -3 datos/validar_red.py datos/red_principal.json
    5. Definir el formato JSON común y entregar los archivos de datos al equipo. ✅
 2. **Formulación matemática del modelo** — [docs/tarea2_formulacion.md](docs/tarea2_formulacion.md)
    1. Definir formalmente G = (V, E), la función de capacidad c, las propiedades exigidas y los sucesores/predecesores de cada centro. ✅
-   2. Formular las restricciones del flujo (capacidad y conservación), el valor del flujo |x| y el problema de flujo máximo como optimización.
+   2. Formular las restricciones del flujo (capacidad y conservación), el valor del flujo |x| y el problema de flujo máximo como optimización. ✅
       - **2.2a** Función de flujo y restricción de capacidad
         - 2.2a.1 Definir la función de flujo x, su significado y su diferencia con c (con ejemplo). ✅
         - 2.2a.2 Formular la restricción de capacidad 0 ≤ x(u,v) ≤ c(u,v), arcos saturados y holgura. ✅
@@ -49,7 +49,7 @@ py -3 datos/validar_red.py datos/red_principal.json
         - 2.2c.3 Cotas superiores del valor: capacidad de salida de s, de entrada a t y de cualquier corte. ✅
       - **2.2d** Problema de flujo máximo como problema de optimización
         - 2.2d.1 Plantear el problema (PFM): objetivo, restricciones, flujo óptimo y existencia de solución. ✅
-        - 2.2d.2 Resumen del modelo completo y tamaño del problema en la red principal (variables y restricciones).
+        - 2.2d.2 Resumen del modelo completo y tamaño del problema en la red principal (variables y restricciones). ✅
    3. Aplicar el modelo a la red principal: escribir las ecuaciones de conservación de cada centro intermedio y explicar los supuestos e interpretación del modelo.
 3. **Teorema de flujo máximo–corte mínimo**: investigarlo, definir c(S, T) y explicar por qué el corte obtenido del grafo residual es mínimo.
 4. **Caso de verificación manual (4–6 vértices)**: resolverlo a mano con caminos aumentantes, encontrar un flujo y un corte de igual valor y compararlo con la salida del código (capturas).

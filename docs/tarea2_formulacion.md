@@ -444,3 +444,52 @@ El flujo máximo puede **no ser único**: puede haber distintas asignaciones $x$
 $$v^* = 22 \text{ paquetes por hora},$$
 
 valor que debe confirmar el algoritmo implementado.
+
+#### 2.2d.2 Resumen del modelo y tamaño del problema en la red principal
+
+**Resumen del modelo completo**
+
+| Elemento | Notación | Sección | En la red principal | En el código (JSON) |
+|---|---|---|---|---|
+| Centros logísticos | $V$ | 2.1 | $\lbrace O, A, \dots, H, T \rbrace$, $\lvert V \rvert = 10$ | `vertices[].id` |
+| Rutas | $E \subseteq V \times V$ | 2.1 | 18 pares ordenados | `arcos[].u`, `arcos[].v` |
+| Capacidad | $c : E \to \lbrace 1,\dots,12 \rbrace$ | 2.1 | entre 3 y 12 paquetes/hora | `arcos[].cap` |
+| Origen y destino | $s, t$ | 2.1 | $s = O$, $t = T$ | `origen`, `destino` |
+| Ruta desactivada | $(u,v) \notin E$ | 2.2a.1 | — | `arcos[].activo = false` |
+| Flujo | $x : E \to \mathbb{Z}_{\ge 0}$ | 2.2a.1 | 18 valores a determinar | salida del algoritmo |
+| Capacidad | $0 \le x \le c$ | 2.2a.2 | 18 pares de desigualdades | verificación de capacidades |
+| Conservación | $x^{\text{ent}}(v) = x^{\text{sal}}(v)$ | 2.2b | 8 ecuaciones ($A$ a $H$) | verificación de conservación |
+| Valor del flujo | $\lvert x \rvert$ | 2.2c | $x(O,A) + x(O,B) + x(O,C)$ | valor devuelto por `max_flow` |
+| Cota por cortes | $\lvert x \rvert \le c(S,\overline{S})$ | 2.2c.3 | menor cota encontrada: 22 | corte mínimo |
+| Objetivo | $\max \lvert x \rvert$ | 2.2d.1 | $v^* = 22$ esperado | `max_flow(grafo, s, t)` |
+
+**Tamaño del problema (PFM) en la red principal**
+
+| Componente | Cantidad | Detalle |
+|---|---|---|
+| Variables de decisión | $\lvert E \rvert = 18$ | una $x(u,v)$ por ruta |
+| Términos de la función objetivo | $\lvert \delta^+(O) \rvert + \lvert \delta^-(O) \rvert = 3 + 0 = 3$ | $x(O,A), x(O,B), x(O,C)$ |
+| Restricciones de capacidad | $2 \lvert E \rvert = 36$ desigualdades | $x(u,v) \ge 0$ y $x(u,v) \le c(u,v)$ |
+| Restricciones de conservación | $\lvert V \rvert - 2 = 8$ ecuaciones | una por centro intermedio |
+| Restricciones de integralidad | $\lvert E \rvert = 18$ | se cumplen solas con capacidades enteras |
+| **Total de restricciones lineales** | $36 + 8 = 44$ | |
+
+En general, para una red con $n = |V|$ vértices y $m = |E|$ arcos, el problema tiene $m$ variables, $2m$ desigualdades de capacidad y $n - 2$ ecuaciones de conservación. Con los límites del enunciado ($10 \le n \le 12$, $15 \le m \le 20$) son a lo sumo 20 variables y 50 restricciones.
+
+**Efecto de las modificaciones de la red (tarea 4 del proyecto).**
+
+| Modificación | Cambio en el modelo | Cambio en el tamaño |
+|---|---|---|
+| Desactivar una ruta $(u,v)$ | se elimina $(u,v)$ de $E$ | $m - 1$ variables, 2 desigualdades menos |
+| Cambiar la capacidad de $(u,v)$ | cambia el valor $c(u,v) \in \lbrace 1,\dots,12 \rbrace$ | no cambia |
+| Agregar una ruta $(u,v)$ | se agrega $(u,v)$ a $E$, sin lazos, repetidos ni recíprocos | $m + 1$ variables, 2 desigualdades más |
+
+En los tres casos **el modelo es el mismo** y solo cambian los datos ($E$ y $c$). Por eso el mismo algoritmo resuelve cualquier configuración con solo recalcular. Si se agrega una ruta que **entra** a $O$ o **sale** de $T$, la función objetivo gana un término negativo (2.2c.1).
+
+**Cómo se resuelve.** El proyecto no resuelve (PFM) con un *solver* de programación lineal, porque el enunciado prohíbe usar bibliotecas que hagan el cálculo. Usa un algoritmo de **caminos aumentantes** de implementación propia (Ford–Fulkerson / Edmonds–Karp). El algoritmo:
+
+1. parte del flujo nulo, que es factible (2.2a.1);
+2. en cada paso envía más paquetes por un camino de $s$ a $t$ con holgura, respetando la capacidad (2.2a.2) y la conservación (2.2b);
+3. termina cuando el flujo alcanza la capacidad de un corte (2.2c.3). En ese momento el flujo es máximo.
+
+La justificación de este último paso es el **teorema de flujo máximo–corte mínimo** (tarea 3).
