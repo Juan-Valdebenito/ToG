@@ -341,3 +341,57 @@ $$|x| = x(O,A) + x(O,B) + x(O,C) = x(G,T) + x(H,T)$$
 Suma de excesos del flujo de tres caminos: $\operatorname{exc}(O) + \operatorname{exc}(T) + \sum_{v \ne O,T} \operatorname{exc}(v) = -15 + 15 + 0 = 0$ ✔.
 
 > Utilidad práctica: el programa puede calcular $|x|$ en $s$ y en $t$ y comparar ambos valores como una verificación adicional del resultado.
+
+#### 2.2c.3 Cotas superiores del valor del flujo
+
+El valor de un flujo no puede crecer sin límite: las capacidades lo acotan. Aquí se obtienen tres cotas. La última es la más general.
+
+**Cota 1: capacidad de salida del origen.** Si ninguna ruta llega a $s$ (como en la red principal):
+
+$$|x| = \sum_{(s,v) \in E} x(s,v) \;\le\; \sum_{(s,v) \in E} c(s,v)$$
+
+Red principal: $|x| \le c(O,A) + c(O,B) + c(O,C) = 10 + 8 + 7 = 25$.
+
+**Cota 2: capacidad de entrada al destino.** Si de $t$ no sale ninguna ruta, por 2.2c.2:
+
+$$|x| = \sum_{(u,t) \in E} x(u,t) \;\le\; \sum_{(u,t) \in E} c(u,t)$$
+
+Red principal: $|x| \le c(G,T) + c(H,T) = 12 + 12 = 24$.
+
+**Cota 3: capacidad de cualquier corte.** Las dos cotas anteriores son casos particulares de una idea general.
+
+Un **corte** $s$–$t$ es una partición $V = S \cup \overline{S}$ con $S \cap \overline{S} = \varnothing$, $s \in S$ y $t \in \overline{S}$. Aquí se escribe $\overline{S}$ en lugar del $T$ del enunciado, para no confundirlo con el vértice destino $T$. Su **capacidad** es la suma de las capacidades de los arcos que van **de $S$ hacia $\overline{S}$**:
+
+$$c(S, \overline{S}) = \sum_{\substack{(u,v) \in E \ u \in S,\ v \in \overline{S}}} c(u, v)$$
+
+Los arcos que van de $\overline{S}$ hacia $S$ **no** se suman.
+
+**Proposición.** Para todo flujo factible $x$ y todo corte $s$–$t$ $(S, \overline{S})$:
+
+$$|x| \;=\; \sum_{\substack{(u,v) \in E \ u \in S,\ v \in \overline{S}}} x(u,v) \;-\; \sum_{\substack{(u,v) \in E \ u \in \overline{S},\ v \in S}} x(u,v) \;\le\; c(S, \overline{S})$$
+
+**Demostración.** Como $t \notin S$, el único vértice de $S$ que puede tener exceso distinto de cero es $s$. Entonces
+
+$$|x| = -\operatorname{exc}(s) = \sum_{v \in S} \big( x^{\text{sal}}(v) - x^{\text{ent}}(v) \big)$$
+
+En esta suma, un arco con **ambos extremos en $S$** aparece una vez sumando (sale de $u$) y otra restando (entra a $v$), así que se cancela. Solo quedan los arcos que cruzan el corte: suman los que van de $S$ a $\overline{S}$ y restan los que van de $\overline{S}$ a $S$. Esto da la igualdad. Para la desigualdad se usa la restricción de capacidad (2.2a.2): el primer término es $\le \sum c(u,v) = c(S,\overline{S})$ y el segundo es $\ge 0$. $\blacksquare$
+
+**Interpretación:** todo paquete que va de $O$ a $T$ tiene que **cruzar** el corte al menos una vez. Si se separa la red en dos lados, no pueden pasar más paquetes que la capacidad total de las rutas que cruzan de un lado al otro.
+
+**Algunos cortes de la red principal:**
+
+| $S$ | Arcos de $S$ a $\overline{S}$ | $c(S, \overline{S})$ |
+|---|---|---|
+| $\lbrace O \rbrace$ | $(O,A), (O,B), (O,C)$ | $10 + 8 + 7 = 25$ |
+| $\lbrace O, A \rbrace$ | $(O,B), (O,C), (A,D), (A,E)$. El arco $(B,A)$ va de $\overline{S}$ a $S$ y no se suma | $8 + 7 + 6 + 4 = 25$ |
+| $\lbrace O, A, B, C \rbrace$ | $(A,D), (A,E), (B,D), (B,F), (C,F), (C,G)$ | $6 + 4 + 5 + 6 + 5 + 4 = 30$ |
+| $\lbrace O, A, B, C, D, E, F \rbrace$ | $(C,G), (D,H), (E,H), (F,G)$ | $4 + 7 + 5 + 6 = \mathbf{22}$ |
+| $V \setminus \lbrace T \rbrace$ | $(G,T), (H,T)$ | $12 + 12 = 24$ |
+
+La cota 1 es el corte $S = \lbrace O \rbrace$ y la cota 2 es el corte $S = V \setminus \lbrace T \rbrace$.
+
+**Conclusión.** Cada corte da una cota, y la más útil es la **menor**. De la tabla se obtiene
+
+$$|x| \le 22 \qquad \text{para todo flujo factible } x \text{ de la red principal}$$
+
+Los flujos de ejemplo ($|x| = 5$ y $|x| = 15$) cumplen esta cota. En 1.4 se indicó que existe un flujo de valor 22. Si un flujo alcanza la capacidad de un corte, ese flujo es **máximo** y ese corte es **mínimo**. Esta es la idea del **teorema de flujo máximo–corte mínimo**, que se estudia en la tarea 3.
