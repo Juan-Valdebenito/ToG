@@ -395,3 +395,52 @@ La cota 1 es el corte $S = \lbrace O \rbrace$ y la cota 2 es el corte $S = V \se
 $$|x| \le 22 \qquad \text{para todo flujo factible } x \text{ de la red principal}$$
 
 Los flujos de ejemplo ($|x| = 5$ y $|x| = 15$) cumplen esta cota. En 1.4 se indicó que existe un flujo de valor 22. Si un flujo alcanza la capacidad de un corte, ese flujo es **máximo** y ese corte es **mínimo**. Esta es la idea del **teorema de flujo máximo–corte mínimo**, que se estudia en la tarea 3.
+
+### 2.2d Problema de flujo máximo
+
+#### 2.2d.1 Formulación como problema de optimización
+
+Al reunir los elementos de 2.2a, 2.2b y 2.2c, el problema de la empresa (*¿cuántos paquetes por hora, como máximo, pueden enviarse de $s$ a $t$?*) se plantea como el siguiente problema de optimización:
+
+$$
+\textbf{(PFM)} \qquad
+\begin{aligned}
+\max_{x} \quad & |x| = \sum_{(s,v) \in E} x(s,v) - \sum_{(u,s) \in E} x(u,s) && \text{(valor del flujo, 2.2c)} \[4pt]
+\text{sujeto a} \quad & 0 \le x(u,v) \le c(u,v) && \forall\, (u,v) \in E \quad \text{(capacidad, 2.2a)} \[4pt]
+& \sum_{(u,v) \in E} x(u,v) = \sum_{(v,w) \in E} x(v,w) && \forall\, v \in V \setminus \lbrace s,t \rbrace \quad \text{(conservación, 2.2b)} \[4pt]
+& x(u,v) \in \mathbb{Z} && \forall\, (u,v) \in E \quad \text{(paquetes enteros)}
+\end{aligned}
+$$
+
+| Elemento | En el problema | En la red de distribución |
+|---|---|---|
+| **Datos** | $G = (V,E)$, $c$, $s$, $t$ | Centros, rutas, capacidades, origen y destino |
+| **Variables de decisión** | $x(u,v)$, una por arco | Paquetes por hora asignados a cada ruta |
+| **Función objetivo** | $\max \lvert x \rvert$ | Maximizar los paquetes despachados por hora |
+| **Restricciones** | Capacidad, conservación e integralidad | No exceder las rutas, no acumular en los centros y no dividir paquetes |
+
+**Definiciones:**
+
+- **Conjunto factible:** $\mathcal{F} = \lbrace x : E \to \mathbb{Z} \mid x \text{ cumple capacidad y conservación} \rbrace$.
+- **Flujo máximo (óptimo):** un $x^* \in \mathcal{F}$ tal que $|x^*| \ge |x|$ para todo $x \in \mathcal{F}$.
+- **Valor del flujo máximo:** $v^* = |x^*| = \max_{x \in \mathcal{F}} |x|$.
+
+**El problema siempre tiene solución.**
+
+1. $\mathcal{F} \ne \varnothing$, porque el flujo nulo es factible (2.2a.1).
+2. $\mathcal{F}$ es **finito**, porque cada $x(u,v)$ es un entero entre $0$ y $c(u,v)$. Hay a lo sumo $\prod_{e \in E} (c(e) + 1)$ flujos posibles.
+3. Un conjunto finito y no vacío siempre tiene un elemento de valor máximo, así que $x^*$ **existe**.
+
+El flujo máximo puede **no ser único**: puede haber distintas asignaciones $x$ con el mismo valor $v^*$. El **valor** $v^*$ sí es único. Por eso el código puede entregar un flujo distinto al calculado a mano y aun así ser correcto, siempre que el valor coincida (esto es importante para la verificación de la tarea 4).
+
+**Observaciones:**
+
+- Sin la condición de integralidad, (PFM) es un **problema de programación lineal**: la función objetivo y todas las restricciones son lineales en $x$.
+- Como todas las capacidades son enteras, la integralidad **no cambia el valor óptimo**: siempre existe un flujo máximo entero (Ford y Fulkerson, 1956). Los algoritmos de caminos aumentantes lo encuentran directamente, porque parten de $x = 0$ y aumentan en cantidades enteras.
+- Recorrer los $\prod_e (c(e)+1)$ flujos posibles es impracticable: en la red principal son $\prod_e (c(e)+1) \approx 6{,}3 \times 10^{14}$ combinaciones. Por eso se necesita un algoritmo eficiente (tarea de la Persona 2).
+
+**Red principal.** Por 2.2c.3, $v^* \le 22$, y en 1.4 se indicó que existe un flujo de valor 22. Por lo tanto se espera
+
+$$v^* = 22 \text{ paquetes por hora},$$
+
+valor que debe confirmar el algoritmo implementado.
