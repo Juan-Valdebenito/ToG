@@ -58,6 +58,28 @@ def bfs_camino_aumentante(residual, s, t):
     return None
 
 
+def dfs_camino_aumentante(residual, s, t):
+    """Entrada: grafo residual, origen s y destino t.
+    Resultado: diccionario padre del camino encontrado, o None si no hay camino.
+    Búsqueda en profundidad (pila explícita): devuelve el primer camino s -> t que
+    encuentra, sin importar su largo. Es la variante clásica de Ford–Fulkerson y
+    se usa solo para comparar con Edmonds–Karp (ver scripts/comparar_algoritmos.py)."""
+    padre = {}
+    pila = [(s, None)]
+    while pila:
+        u, p = pila.pop()
+        if u in padre:
+            continue
+        padre[u] = p
+        if u == t:
+            return padre
+        # se apilan en orden inverso para visitar los sucesores en su orden original
+        for v, cap in reversed(list(residual[u].items())):
+            if cap > 0 and v not in padre:
+                pila.append((v, u))
+    return None
+
+
 def reconstruir_camino(padre, t):
     """Entrada: diccionario padre del BFS y el destino t.
     Resultado: lista de vértices del camino [s, ..., t]."""
@@ -73,13 +95,29 @@ def edmonds_karp(vertices, arcos, s, t):
       valor       -> valor del flujo máximo |x|
       residual    -> grafo residual final (sirve para el flujo por arco y el corte)
       iteraciones -> lista de (camino, cuello_de_botella) de cada aumento, en orden.
-    Repite: buscar camino aumentante con BFS, calcular su cuello de botella,
-    restar esa cantidad en los arcos del camino y sumarla en los inversos."""
+    Es el método de Ford–Fulkerson eligiendo cada camino aumentante con BFS."""
+    return caminos_aumentantes(vertices, arcos, s, t, bfs_camino_aumentante)
+
+
+def ford_fulkerson_dfs(vertices, arcos, s, t):
+    """Igual que edmonds_karp, pero eligiendo los caminos con DFS.
+    Solo se usa para la comparación empírica entre ambas estrategias."""
+    return caminos_aumentantes(vertices, arcos, s, t, dfs_camino_aumentante)
+
+
+def caminos_aumentantes(vertices, arcos, s, t, buscar_camino):
+    """Método de Ford–Fulkerson genérico.
+    Entrada: vértices, arcos (u, v, cap), s, t y la función que busca un camino
+    aumentante en el residual (BFS -> Edmonds–Karp, DFS -> Ford–Fulkerson clásico).
+    Resultado: (valor, residual, iteraciones), como en edmonds_karp.
+    Repite: buscar camino aumentante, calcular su cuello de botella,
+    restar esa cantidad en los arcos del camino y sumarla en los inversos.
+    Termina porque las capacidades son enteras: cada aumento suma al menos 1."""
     residual = construir_residual(vertices, arcos)
     valor = 0
     iteraciones = []
     while True:
-        padre = bfs_camino_aumentante(residual, s, t)
+        padre = buscar_camino(residual, s, t)
         if padre is None:
             break
         camino = reconstruir_camino(padre, t)

@@ -6,7 +6,8 @@ import json
 import os
 import unittest
 
-from simulador.flujo import max_flow, verificar
+from simulador.flujo import (arcos_activos, edmonds_karp, ford_fulkerson_dfs,
+                             max_flow, verificar)
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -48,6 +49,15 @@ class TestFlujo(unittest.TestCase):
             if (a["u"], a["v"]) == ("C", "T"):
                 a["activo"] = False
         self.comprobar(g, 9)  # solo queda llegar a T por D -> T (9)
+
+    def test_dfs_y_bfs_dan_el_mismo_valor(self):
+        for nombre in ["red_ejemplo_enunciado.json", "red_principal.json",
+                       "config_2_sin_DH.json", "config_3_nueva_ET.json"]:
+            with self.subTest(nombre=nombre):
+                g = cargar(nombre)
+                V, E = [v["id"] for v in g["vertices"]], arcos_activos(g)
+                self.assertEqual(ford_fulkerson_dfs(V, E, "O", "T")[0],
+                                 edmonds_karp(V, E, "O", "T")[0])
 
     def test_sin_camino(self):
         g = {"vertices": [{"id": "s"}, {"id": "a"}, {"id": "t"}],
