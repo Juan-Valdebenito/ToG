@@ -1,7 +1,8 @@
 """
 flujo.py - Flujo máximo (Edmonds–Karp) y corte mínimo, implementados con código propio.
 
-Solo usa estructuras básicas de Python (dict, list, set y collections.deque como cola).
+Solo usa estructuras básicas de Python (dict, list y set). La cola de la BFS es una
+lista con un índice de lectura.
 No se usa ninguna biblioteca que calcule flujos.
 
 Formato de la red: el mismo JSON de datos/ (ver docs/tarea1_red_principal.md):
@@ -17,8 +18,6 @@ Referencias:
 - Ford, L. R. & Fulkerson, D. R. (1956). Maximal flow through a network.
   Canadian Journal of Mathematics, 8, 399–404.
 """
-from collections import deque
-
 
 def arcos_activos(grafo):
     """Entrada: red en formato JSON del proyecto.
@@ -46,9 +45,11 @@ def bfs_camino_aumentante(residual, s, t):
     La búsqueda en anchura encuentra el camino aumentante con menos arcos,
     lo que caracteriza a Edmonds–Karp y acota las iteraciones a O(|V|·|E|)."""
     padre = {s: None}
-    cola = deque([s])
-    while cola:
-        u = cola.popleft()
+    cola = [s]          # cola FIFO: se agrega al final y se lee avanzando el índice i
+    i = 0
+    while i < len(cola):
+        u = cola[i]
+        i += 1
         for v, cap in residual[u].items():
             if cap > 0 and v not in padre:
                 padre[v] = u
@@ -146,9 +147,11 @@ def corte_minimo(vertices, arcos, residual, s):
       arcos_corte -> arcos originales (u, v, cap) con u en S y v en T.
     Por el teorema de flujo máximo–corte mínimo, c(S, T) = valor del flujo máximo."""
     S = {s}
-    cola = deque([s])
-    while cola:
-        u = cola.popleft()
+    cola = [s]
+    i = 0
+    while i < len(cola):
+        u = cola[i]
+        i += 1
         for v, cap in residual[u].items():
             if cap > 0 and v not in S:
                 S.add(v)

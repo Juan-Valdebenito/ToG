@@ -16,12 +16,14 @@ datos/
   red_principal.json          Red principal / configuración 1 (10 vértices, 18 arcos, s = O, t = T)
   config_2_sin_DH.json        Configuración 2: ruta D -> H desactivada
   config_3_nueva_ET.json      Configuración 3: nueva ruta E -> T (capacidad 6)
+  caso_manual.json            Caso de verificación manual del apartado 5 (5 vértices, flujo máx. = 11)
   red_ejemplo_enunciado.json  Red de la Figura 1 del enunciado (para pruebas, flujo máx. = 14)
   validar_red.py              Comprueba las reglas del enunciado sobre una red
 docs/
   tarea1_red_principal.md     Diseño de la red, validación y formato de datos
   tarea2_formulacion.md       Formulación matemática del modelo
   tarea_p2_algoritmo.md       Investigación, comparación, justificación e implementación del algoritmo
+  caso_manual.md              Resolución manual del caso de verificación y contraste con el código
   tarea3_resultados.md        Interfaz, modificaciones y resultados de las 3 configuraciones
   capturas/                   Capturas de la aplicación para el informe
 scripts/
@@ -31,7 +33,7 @@ scripts/
 
 ## Instalación y ejecución
 
-Requiere Python 3.9 o superior (en Windows, si `python` abre Python 2, usar `py -3`).
+Requiere **Python 3.11 o superior** (Streamlit 1.67 no se instala en versiones anteriores). En Windows, si `python` abre otra versión, usar `py -3.11` o superior. Comprobar con `python --version`.
 
 ```bash
 # 1. Clonar el repositorio y entrar a la carpeta
@@ -92,7 +94,7 @@ El cálculo de flujo **no** usa bibliotecas: Streamlit y Graphviz (DOT) solo dib
         - 2.2d.2 Resumen del modelo completo y tamaño del problema en la red principal (variables y restricciones). ✅
    3. Aplicar el modelo a la red principal: escribir las ecuaciones de conservación de cada centro intermedio y explicar los supuestos e interpretación del modelo.
 3. **Teorema de flujo máximo–corte mínimo**: investigarlo, definir c(S, T) y explicar por qué el corte obtenido del grafo residual es mínimo.
-4. **Caso de verificación manual (4–6 vértices)**: resolverlo a mano con caminos aumentantes, encontrar un flujo y un corte de igual valor y compararlo con la salida del código (capturas).
+4. **Caso de verificación manual (4–6 vértices)**: resolverlo a mano con caminos aumentantes, encontrar un flujo y un corte de igual valor y compararlo con la salida del código (capturas). — borrador listo en [docs/caso_manual.md](docs/caso_manual.md) (revisar)
 5. **Verificación de las 3 configuraciones e informe final**: comprobar capacidades, conservación y flujo = corte en la red inicial y sus dos modificaciones; unir las secciones del informe en PDF con las referencias.
 
 ### Persona 2 — Investigación e implementación del algoritmo — [docs/tarea_p2_algoritmo.md](docs/tarea_p2_algoritmo.md)

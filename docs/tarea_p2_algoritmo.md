@@ -96,7 +96,7 @@ Dinic y push–relabel tienen mejor complejidad, pero para redes de 10 a 12 cent
 
 ## 5. Implementación
 
-Todo el algoritmo está en [`simulador/flujo.py`](../simulador/flujo.py) y solo usa estructuras básicas de Python (`dict`, `list`, `set` y `collections.deque` como cola). No se usa ninguna biblioteca de grafos ni de flujos.
+Todo el algoritmo está en [`simulador/flujo.py`](../simulador/flujo.py) y solo usa estructuras básicas de Python (`dict`, `list` y `set`; la cola de la BFS es una lista con un índice de lectura). No se usa ninguna biblioteca de grafos ni de flujos.
 
 ### 5.1 Representación de la red residual
 
