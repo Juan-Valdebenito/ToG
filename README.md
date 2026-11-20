@@ -7,22 +7,60 @@ Aplicación que modela una red de centros logísticos como un grafo dirigido con
 ## Estructura
 
 ```
+app.py                        Interfaz interactiva (Streamlit)
+simulador/
+  flujo.py                    Edmonds–Karp, corte mínimo y comprobaciones (código propio)
+tests/
+  test_flujo.py               Pruebas: ejemplo = 14, principal = 22, config. 2 = 15, config. 3 = 25
 datos/
-  red_principal.json          Red principal (10 vértices, 18 arcos, s = O, t = T)
+  red_principal.json          Red principal / configuración 1 (10 vértices, 18 arcos, s = O, t = T)
+  config_2_sin_DH.json        Configuración 2: ruta D -> H desactivada
+  config_3_nueva_ET.json      Configuración 3: nueva ruta E -> T (capacidad 6)
   red_ejemplo_enunciado.json  Red de la Figura 1 del enunciado (para pruebas, flujo máx. = 14)
   validar_red.py              Comprueba las reglas del enunciado sobre una red
 docs/
   tarea1_red_principal.md     Diseño de la red, validación y formato de datos
   tarea2_formulacion.md       Formulación matemática del modelo
+  tarea3_resultados.md        Interfaz, modificaciones y resultados de las 3 configuraciones
+  capturas/                   Capturas de la aplicación para el informe
+scripts/
+  capturas.py                 Regenera las capturas (solo desarrollo, requiere playwright)
 ```
 
-## Ejecución
+## Instalación y ejecución
 
-Requiere Python 3 (en Windows, si `python` abre Python 2, usar `py -3`).
+Requiere Python 3.9 o superior (en Windows, si `python` abre Python 2, usar `py -3`).
 
 ```bash
-py -3 datos/validar_red.py datos/red_principal.json
+# 1. Clonar el repositorio y entrar a la carpeta
+git clone <url-del-repositorio> && cd ToG
+
+# 2. (Opcional) crear un entorno virtual
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+
+# 3. Instalar dependencias (solo Streamlit, para la interfaz)
+pip install -r requirements.txt
+
+# 4. Abrir la interfaz (se abre en http://localhost:8501)
+streamlit run app.py
 ```
+
+Otros comandos:
+
+```bash
+python -m unittest discover tests                  # pruebas del algoritmo
+python datos/validar_red.py datos/red_principal.json   # reglas del enunciado sobre una red
+```
+
+### Uso de la interfaz
+
+1. En la barra lateral, elegir la red, el **origen s** y el **destino t**, y pulsar **Calcular flujo máximo**.
+2. El grafo muestra el flujo/capacidad de cada ruta, S en azul, T en naranja y los arcos del corte mínimo en rojo. Debajo aparecen el corte, la tabla de flujo por arco y el detalle de los caminos aumentantes y las comprobaciones.
+3. En **Modificar la red** se puede desactivar o activar una ruta, cambiar su capacidad (1–12) o agregar una conexión. Los lazos, los arcos repetidos y los recíprocos se rechazan. Después hay que pulsar **Recalcular**.
+4. En **Comparar configuraciones** se guarda cada resultado o se cargan las 3 configuraciones del proyecto en una tabla.
+
+El cálculo de flujo **no** usa bibliotecas: Streamlit y Graphviz (DOT) solo dibujan.
 
 ## Reparto de tareas
 
@@ -63,13 +101,13 @@ py -3 datos/validar_red.py datos/red_principal.json
 4. Implementar las comprobaciones: capacidades, conservación del flujo y valor del flujo = capacidad del corte.
 5. Documentar las funciones (entradas, salidas y propósito) y escribir la sección del informe sobre investigación e implementación.
 
-### Persona 3 — Interfaz interactiva y simulación
+### Persona 3 — Interfaz interactiva y simulación — [docs/tarea3_resultados.md](docs/tarea3_resultados.md)
 
-1. Construir la interfaz que dibuje los centros, las rutas, sus direcciones y capacidades (sin usar funciones de flujo de bibliotecas).
-2. Agregar los controles: elegir origen y destino, botón Calcular/Recalcular, mostrar el flujo máximo, flujo/capacidad por arco y la partición S | T resaltando los arcos del corte.
-3. Permitir modificaciones desde la interfaz: desactivar una ruta, cambiar su capacidad y agregar una conexión, rechazando arcos inválidos.
-4. Definir y analizar las 3 configuraciones (inicial + 2 modificaciones): flujo máximo, corte mínimo e interpretación de las diferencias.
-5. Preparar el repositorio (README, `requirements.txt`, instrucciones), escribir la sección de resultados con capturas y liderar la demo.
+1. Construir la interfaz que dibuje los centros, las rutas, sus direcciones y capacidades (sin usar funciones de flujo de bibliotecas). ✅
+2. Agregar los controles: elegir origen y destino, botón Calcular/Recalcular, mostrar el flujo máximo, flujo/capacidad por arco y la partición S | T resaltando los arcos del corte. ✅
+3. Permitir modificaciones desde la interfaz: desactivar una ruta, cambiar su capacidad y agregar una conexión, rechazando arcos inválidos. ✅
+4. Definir y analizar las 3 configuraciones (inicial + 2 modificaciones): flujo máximo, corte mínimo e interpretación de las diferencias. ✅ (22 → 15 sin D→H; 22 → 25 con E→T)
+5. Preparar el repositorio (README, `requirements.txt`, instrucciones), escribir la sección de resultados con capturas y liderar la demo. ✅ (demo pendiente de ensayo)
 
 ## Calendario
 
