@@ -1,0 +1,39 @@
+{
+  "nombre": "Configuración 3: nueva ruta E -> T (6)",
+  "unidad_capacidad": "paquetes por hora",
+  "origen": "O",
+  "destino": "T",
+  "vertices": [
+    {"id": "O", "nombre": "Centro de origen (bodega central)"},
+    {"id": "A", "nombre": "Centro intermedio A"},
+    {"id": "B", "nombre": "Centro intermedio B"},
+    {"id": "C", "nombre": "Centro intermedio C"},
+    {"id": "D", "nombre": "Centro intermedio D"},
+    {"id": "E", "nombre": "Centro intermedio E"},
+    {"id": "F", "nombre": "Centro intermedio F"},
+    {"id": "G", "nombre": "Centro intermedio G"},
+    {"id": "H", "nombre": "Centro intermedio H"},
+    {"id": "T", "nombre": "Centro de destino"}
+  ],
+  "arcos": [
+    {"u": "O", "v": "A", "cap": 10, "activo": true},
+    {"u": "O", "v": "B", "cap": 8, "activo": true},
+    {"u": "O", "v": "C", "cap": 7, "activo": true},
+    {"u": "B", "v": "A", "cap": 3, "activo": true},
+    {"u": "A", "v": "D", "cap": 6, "activo": true},
+    {"u": "A", "v": "E", "cap": 4, "activo": true},
+    {"u": "B", "v": "D", "cap": 5, "activo": true},
+    {"u": "B", "v": "F", "cap": 6, "activo": true},
+    {"u": "C", "v": "F", "cap": 5, "activo": true},
+    {"u": "C", "v": "G", "cap": 4, "activo": true},
+    {"u": "D", "v": "E", "cap": 3, "activo": true},
+    {"u": "D", "v": "H", "cap": 7, "activo": true},
+    {"u": "E", "v": "H", "cap": 5, "activo": true},
+    {"u": "F", "v": "E", "cap": 3, "activo": true},
+    {"u": "F", "v": "G", "cap": 6, "activo": true},
+    {"u": "G", "v": "H", "cap": 4, "activo": true},
+    {"u": "G", "v": "T", "cap": 12, "activo": true},
+    {"u": "H", "v": "T", "cap": 12, "activo": true},
+    {"u": "E", "v": "T", "cap": 6, "activo": true}
+  ]
+}
