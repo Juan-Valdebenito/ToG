@@ -9,7 +9,7 @@ Aplicación que modela una red de centros logísticos como un grafo dirigido con
 ```
 app.py                        Interfaz interactiva (Streamlit)
 simulador/
-  flujo.py                    Edmonds–Karp, corte mínimo y comprobaciones (código propio)
+  flujo.py                    Edmonds–Karp (y Ford–Fulkerson DFS para comparar), corte mínimo y comprobaciones
 tests/
   test_flujo.py               Pruebas: ejemplo = 14, principal = 22, config. 2 = 15, config. 3 = 25
 datos/
@@ -21,10 +21,12 @@ datos/
 docs/
   tarea1_red_principal.md     Diseño de la red, validación y formato de datos
   tarea2_formulacion.md       Formulación matemática del modelo
+  tarea_p2_algoritmo.md       Investigación, comparación, justificación e implementación del algoritmo
   tarea3_resultados.md        Interfaz, modificaciones y resultados de las 3 configuraciones
   capturas/                   Capturas de la aplicación para el informe
 scripts/
   capturas.py                 Regenera las capturas (solo desarrollo, requiere playwright)
+  comparar_algoritmos.py      Compara Ford–Fulkerson (DFS) y Edmonds–Karp (BFS) en iteraciones
 ```
 
 ## Instalación y ejecución
@@ -93,13 +95,13 @@ El cálculo de flujo **no** usa bibliotecas: Streamlit y Graphviz (DOT) solo dib
 4. **Caso de verificación manual (4–6 vértices)**: resolverlo a mano con caminos aumentantes, encontrar un flujo y un corte de igual valor y compararlo con la salida del código (capturas).
 5. **Verificación de las 3 configuraciones e informe final**: comprobar capacidades, conservación y flujo = corte en la red inicial y sus dos modificaciones; unir las secciones del informe en PDF con las referencias.
 
-### Persona 2 — Investigación e implementación del algoritmo
+### Persona 2 — Investigación e implementación del algoritmo — [docs/tarea_p2_algoritmo.md](docs/tarea_p2_algoritmo.md)
 
-1. Investigar y comparar Ford–Fulkerson (DFS) y Edmonds–Karp (BFS), con fuentes académicas, y justificar la elección.
-2. Implementar con código propio el grafo residual, la búsqueda BFS de caminos aumentantes y Edmonds–Karp (valor máximo y flujo de cada arco original).
-3. Implementar el corte mínimo: S = vértices alcanzables desde s en el residual, T = el resto, y los arcos de S hacia T.
-4. Implementar las comprobaciones: capacidades, conservación del flujo y valor del flujo = capacidad del corte.
-5. Documentar las funciones (entradas, salidas y propósito) y escribir la sección del informe sobre investigación e implementación.
+1. Investigar y comparar Ford–Fulkerson (DFS) y Edmonds–Karp (BFS), con fuentes académicas, y justificar la elección. ✅ (incluye comparación empírica: `python scripts/comparar_algoritmos.py`)
+2. Implementar con código propio el grafo residual, la búsqueda BFS de caminos aumentantes y Edmonds–Karp (valor máximo y flujo de cada arco original). ✅
+3. Implementar el corte mínimo: S = vértices alcanzables desde s en el residual, T = el resto, y los arcos de S hacia T. ✅
+4. Implementar las comprobaciones: capacidades, conservación del flujo y valor del flujo = capacidad del corte. ✅
+5. Documentar las funciones (entradas, salidas y propósito) y escribir la sección del informe sobre investigación e implementación. ✅
 
 ### Persona 3 — Interfaz interactiva y simulación — [docs/tarea3_resultados.md](docs/tarea3_resultados.md)
 
@@ -114,7 +116,7 @@ El cálculo de flujo **no** usa bibliotecas: Streamlit y Graphviz (DOT) solo dib
 | Fecha | Hito |
 |---|---|
 | 18 nov | Red principal y formato de datos definidos (Juan Pablo) ✅ |
-| 21 nov | Algoritmo y corte mínimo funcionando (P2); interfaz básica dibujando la red (P3) |
+| 21 nov | Algoritmo y corte mínimo funcionando (P2); interfaz básica dibujando la red (P3) ✅ |
 | 23 nov | Integración completa y modificaciones funcionando |
 | 24 nov | Resultados de las 3 configuraciones y verificación manual comparada con el código |
 | 25 nov | Informe armado y ensayo de la presentación (12 min, unos 4 por persona) |
