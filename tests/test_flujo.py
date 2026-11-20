@@ -43,6 +43,14 @@ class TestFlujo(unittest.TestCase):
             with self.subTest(nombre=nombre):
                 self.comprobar(cargar(nombre), esperado)
 
+    def test_caso_manual(self):
+        """Caso de verificación del apartado 5: resuelto a mano en docs/caso_manual.md."""
+        g = cargar("caso_manual.json")
+        S, T, corte = self.comprobar(g, 11)
+        self.assertEqual(S, ["O", "A", "B"])
+        self.assertEqual(T, ["C", "T"])
+        self.assertEqual(corte, [("A", "C", 4), ("B", "C", 2), ("B", "T", 5)])
+
     def test_arco_desactivado_se_ignora(self):
         g = cargar("red_ejemplo_enunciado.json")
         for a in g["arcos"]:

@@ -1,0 +1,22 @@
+{
+  "nombre": "Caso de verificación manual (5 centros)",
+  "unidad_capacidad": "paquetes por hora",
+  "origen": "O",
+  "destino": "T",
+  "vertices": [
+    {"id": "O", "nombre": "Origen"},
+    {"id": "A", "nombre": "Centro A"},
+    {"id": "B", "nombre": "Centro B"},
+    {"id": "C", "nombre": "Centro C"},
+    {"id": "T", "nombre": "Destino"}
+  ],
+  "arcos": [
+    {"u": "O", "v": "A", "cap": 7, "activo": true},
+    {"u": "O", "v": "B", "cap": 6, "activo": true},
+    {"u": "A", "v": "B", "cap": 3, "activo": true},
+    {"u": "A", "v": "C", "cap": 4, "activo": true},
+    {"u": "B", "v": "C", "cap": 2, "activo": true},
+    {"u": "B", "v": "T", "cap": 5, "activo": true},
+    {"u": "C", "v": "T", "cap": 8, "activo": true}
+  ]
+}
