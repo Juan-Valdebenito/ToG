@@ -92,10 +92,10 @@ El cálculo de flujo **no** usa bibliotecas: Streamlit y Graphviz (DOT) solo dib
       - **2.2d** Problema de flujo máximo como problema de optimización
         - 2.2d.1 Plantear el problema (PFM): objetivo, restricciones, flujo óptimo y existencia de solución. ✅
         - 2.2d.2 Resumen del modelo completo y tamaño del problema en la red principal (variables y restricciones). ✅
-   3. Aplicar el modelo a la red principal: escribir las ecuaciones de conservación de cada centro intermedio y explicar los supuestos e interpretación del modelo.
-3. **Teorema de flujo máximo–corte mínimo**: investigarlo, definir c(S, T) y explicar por qué el corte obtenido del grafo residual es mínimo.
-4. **Caso de verificación manual (4–6 vértices)**: resolverlo a mano con caminos aumentantes, encontrar un flujo y un corte de igual valor y compararlo con la salida del código (capturas). — borrador listo en [docs/caso_manual.md](docs/caso_manual.md) (revisar)
-5. **Verificación de las 3 configuraciones e informe final**: comprobar capacidades, conservación y flujo = corte en la red inicial y sus dos modificaciones; unir las secciones del informe en PDF con las referencias.
+   3. Aplicar el modelo a la red principal: escribir las ecuaciones de conservación de cada centro intermedio y explicar los supuestos e interpretación del modelo. ✅
+3. **Teorema de flujo máximo–corte mínimo**: investigarlo, definir c(S, T) y explicar por qué el corte obtenido del grafo residual es mínimo. ✅
+4. **Caso de verificación manual (4–6 vértices)**: resolverlo a mano con caminos aumentantes, encontrar un flujo y un corte de igual valor y compararlo con la salida del código (capturas). — borrador listo en [docs/caso_manual.md](docs/caso_manual.md) (revisar) ✅
+5. **Verificación de las 3 configuraciones e informe final**: comprobar capacidades, conservación y flujo = corte en la red inicial y sus dos modificaciones; unir las secciones del informe en PDF con las referencias. ✅
 
 ### Persona 2 — Investigación e implementación del algoritmo — [docs/tarea_p2_algoritmo.md](docs/tarea_p2_algoritmo.md)
 
